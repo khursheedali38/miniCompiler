@@ -1,0 +1,143 @@
+%{
+	#include<stdio.h>
+	#include"y.tab.h"
+	extern int line ;
+	int yylex();
+	extern int yyerror(char *) ;
+%}
+
+%token INT FLOAT CHAR VOID FOR IF ELSE 
+%token PRINTF IDENTIFIER NUM STRING
+%token INCLUDE
+%token GE EE LE NE
+%nonassoc LOWER_THAN_ELSE
+%nonassoc ELSE
+
+%start start
+%%
+start:
+      INCLUDE start | function start | 
+      ;
+
+function:
+	  type IDENTIFIER '(' arg ')'  compound_statement | 
+	  type IDENTIFIER '(' type ')' ';' 
+	  ;
+
+arg:
+	type IDENTIFIER | 
+	;
+
+compound_statement:
+	  '{' statement_list '}' |
+	  '{' '}'
+	  ;
+
+statement_list:
+		statement | 
+		statement statement_list
+		;
+
+statement:
+		declaration |
+		assignment |
+		for |
+		if_else|
+		function_call 
+		print 
+		;
+
+declaration:
+		type identifier_list ';' ;
+
+identifier_list:
+		IDENTIFIER ',' identifier_list | IDENTIFIER 
+		;
+
+assignment:
+		IDENTIFIER '=' NUM ';' |
+		IDENTIFIER '=' expression ';'
+		;
+
+expression:
+		term expression_1
+		;
+
+expression_1:
+		'+' term expression_1 |
+		'-' term expression_1 |
+		;
+
+term:
+		factor term_1 
+		;
+
+term_1:
+		'*' factor term_1 |
+		'/' factor term_1 |
+		;
+
+factor:
+		IDENTIFIER |
+		'(' expression ')' | 
+		NUM 
+		;
+
+rel_expression:
+		factor_rel rel_expression_1 ;
+
+rel_expression_1:
+		'<' factor_rel rel_expression_1 |
+		'>' factor_rel rel_expression_1 |		
+		LE  factor_rel rel_expression_1 |
+		GE  factor_rel rel_expression_1 |
+		EE  factor_rel rel_expression_1 |
+		NE  factor_rel rel_expression_1 |
+		;
+
+factor_rel:
+		IDENTIFIER | NUM
+		;
+
+for:
+		FOR '(' assignment ';' rel_expression  ';' assignment ')' compound_statement |
+
+		FOR '(' assignment ';' rel_expression  ';' assignment ')' statement 
+		;
+
+if_else:
+		IF '(' rel_expression ')' compound_statement |
+		IF '(' rel_expression ')' compound_statement ELSE
+		compound_statement 
+		;
+
+function_call:
+		IDENTIFIER '(' IDENTIFIER ')' ';'
+		;
+
+print:
+		PRINTF'(' STRING ',' identifier_list ')' |
+		PRINTF '(' STRING ')'
+		;
+
+type:
+ 		INT | VOID | CHAR | FLOAT 
+ 		;
+
+%%
+
+
+main(int argc, char *argv[]){ 
+	extern FILE *yyin;
+	++argv; −−argc;
+	yyin = fopen( argv[0], ”r” );
+	yydebug = 1;
+	errors = 0;
+	yyparse ();
+}
+
+/* Called by yyparse on error */
+
+yyerror (char *s){
+	printf (”%s\n”, s);
+}

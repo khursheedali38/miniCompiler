@@ -1,0 +1,1479 @@
+State 41 conflicts: 2 shift/reduce
+
+
+Grammar
+
+    0 $accept: start $end
+
+    1 start: INCLUDE start
+    2      | function start
+    3      | %empty
+
+    4 function: type IDENTIFIER '(' arg ')' compound_statement
+    5         | type IDENTIFIER '(' type ')' ';'
+
+    6 arg: type IDENTIFIER
+    7    | %empty
+
+    8 compound_statement: '{' statement_list '}'
+    9                   | '{' '}'
+
+   10 statement_list: statement
+   11               | statement statement_list
+
+   12 statement: declaration
+   13          | assignment
+   14          | for
+   15          | if_else
+   16          | function_call
+   17          | print
+   18          | array
+
+   19 declaration: type identifier_list ';'
+
+   20 identifier_list: IDENTIFIER ',' identifier_list
+   21                | IDENTIFIER
+
+   22 assignment: IDENTIFIER '=' expression ';'
+   23           | IDENTIFIER '='
+
+   24 expression: term expression_1
+
+   25 expression_1: '+' term expression_1
+   26             | '-' term expression_1
+   27             | %empty
+
+   28 term: factor term_1
+
+   29 term_1: '*' factor term_1
+   30       | '/' factor term_1
+   31       | %empty
+
+   32 factor: IDENTIFIER
+   33       | '(' expression ')'
+   34       | NUM
+
+   35 rel_expression: factor_rel rel_expression_1
+
+   36 rel_expression_1: '<' factor_rel rel_expression_1
+   37                 | '>' factor_rel rel_expression_1
+   38                 | LE factor_rel rel_expression_1
+   39                 | GE factor_rel rel_expression_1
+   40                 | EE factor_rel rel_expression_1
+   41                 | NE factor_rel rel_expression_1
+   42                 | %empty
+
+   43 factor_rel: IDENTIFIER
+   44           | NUM
+
+   45 for: FOR '(' assignment rel_expression ';' update ')' compound_statement
+   46    | FOR '(' assignment rel_expression ';' update ')' statement
+
+   47 if_else: IF '(' rel_expression ')' compound_statement
+   48        | IF '(' rel_expression ')' compound_statement ELSE compound_statement
+
+   49 array: type IDENTIFIER '[' NUM ']' ';'
+   50      | type IDENTIFIER '[' NUM ']' '=' STRING ';'
+   51      | IDENTIFIER '[' NUM ']' '=' STRING ';'
+   52      | type IDENTIFIER '[' NUM ']' '=' NUM ';'
+   53      | IDENTIFIER '[' NUM ']' '=' NUM ';'
+
+   54 function_call: IDENTIFIER '(' IDENTIFIER ')' ';'
+
+   55 print: PRINTF '(' STRING ',' identifier_list ')' ';'
+   56      | PRINTF '(' STRING ')' ';'
+
+   57 update: IDENTIFIER INCR
+   58       | IDENTIFIER DECR
+
+   59 type: INT
+   60     | VOID
+   61     | CHAR
+   62     | FLOAT
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 4 5 33 45 46 47 48 54 55 56
+')' (41) 4 5 33 45 46 47 48 54 55 56
+'*' (42) 29
+'+' (43) 25
+',' (44) 20 55
+'-' (45) 26
+'/' (47) 30
+';' (59) 5 19 22 45 46 49 50 51 52 53 54 55 56
+'<' (60) 36
+'=' (61) 22 23 50 51 52 53
+'>' (62) 37
+'[' (91) 49 50 51 52 53
+']' (93) 49 50 51 52 53
+'{' (123) 8 9
+'}' (125) 8 9
+error (256)
+INT (258) 59
+FLOAT (259) 62
+CHAR (260) 61
+VOID (261) 60
+FOR (262) 45 46
+IF (263) 47 48
+ELSE (264) 48
+PRINTF (265) 55 56
+IDENTIFIER (266) 4 5 6 20 21 22 23 32 43 49 50 51 52 53 54 57 58
+NUM (267) 34 44 49 50 51 52 53
+STRING (268) 50 51 55 56
+INCLUDE (269) 1
+INCR (270) 57
+DECR (271) 58
+GE (272) 39
+EE (273) 40
+LE (274) 38
+NE (275) 41
+LOWER_THAN_ELSE (276)
+
+
+Nonterminals, with rules where they appear
+
+$accept (37)
+    on left: 0
+start (38)
+    on left: 1 2 3, on right: 0 1 2
+function (39)
+    on left: 4 5, on right: 2
+arg (40)
+    on left: 6 7, on right: 4
+compound_statement (41)
+    on left: 8 9, on right: 4 45 47 48
+statement_list (42)
+    on left: 10 11, on right: 8 11
+statement (43)
+    on left: 12 13 14 15 16 17 18, on right: 10 11 46
+declaration (44)
+    on left: 19, on right: 12
+identifier_list (45)
+    on left: 20 21, on right: 19 20 55
+assignment (46)
+    on left: 22 23, on right: 13 45 46
+expression (47)
+    on left: 24, on right: 22 33
+expression_1 (48)
+    on left: 25 26 27, on right: 24 25 26
+term (49)
+    on left: 28, on right: 24 25 26
+term_1 (50)
+    on left: 29 30 31, on right: 28 29 30
+factor (51)
+    on left: 32 33 34, on right: 28 29 30
+rel_expression (52)
+    on left: 35, on right: 45 46 47 48
+rel_expression_1 (53)
+    on left: 36 37 38 39 40 41 42, on right: 35 36 37 38 39 40 41
+factor_rel (54)
+    on left: 43 44, on right: 35 36 37 38 39 40 41
+for (55)
+    on left: 45 46, on right: 14
+if_else (56)
+    on left: 47 48, on right: 15
+array (57)
+    on left: 49 50 51 52 53, on right: 18
+function_call (58)
+    on left: 54, on right: 16
+print (59)
+    on left: 55 56, on right: 17
+update (60)
+    on left: 57 58, on right: 45 46
+type (61)
+    on left: 59 60 61 62, on right: 4 5 6 19 49 50 52
+
+
+State 0
+
+    0 $accept: . start $end
+
+    INT      shift, and go to state 1
+    FLOAT    shift, and go to state 2
+    CHAR     shift, and go to state 3
+    VOID     shift, and go to state 4
+    INCLUDE  shift, and go to state 5
+
+    $default  reduce using rule 3 (start)
+
+    start     go to state 6
+    function  go to state 7
+    type      go to state 8
+
+
+State 1
+
+   59 type: INT .
+
+    $default  reduce using rule 59 (type)
+
+
+State 2
+
+   62 type: FLOAT .
+
+    $default  reduce using rule 62 (type)
+
+
+State 3
+
+   61 type: CHAR .
+
+    $default  reduce using rule 61 (type)
+
+
+State 4
+
+   60 type: VOID .
+
+    $default  reduce using rule 60 (type)
+
+
+State 5
+
+    1 start: INCLUDE . start
+
+    INT      shift, and go to state 1
+    FLOAT    shift, and go to state 2
+    CHAR     shift, and go to state 3
+    VOID     shift, and go to state 4
+    INCLUDE  shift, and go to state 5
+
+    $default  reduce using rule 3 (start)
+
+    start     go to state 9
+    function  go to state 7
+    type      go to state 8
+
+
+State 6
+
+    0 $accept: start . $end
+
+    $end  shift, and go to state 10
+
+
+State 7
+
+    2 start: function . start
+
+    INT      shift, and go to state 1
+    FLOAT    shift, and go to state 2
+    CHAR     shift, and go to state 3
+    VOID     shift, and go to state 4
+    INCLUDE  shift, and go to state 5
+
+    $default  reduce using rule 3 (start)
+
+    start     go to state 11
+    function  go to state 7
+    type      go to state 8
+
+
+State 8
+
+    4 function: type . IDENTIFIER '(' arg ')' compound_statement
+    5         | type . IDENTIFIER '(' type ')' ';'
+
+    IDENTIFIER  shift, and go to state 12
+
+
+State 9
+
+    1 start: INCLUDE start .
+
+    $default  reduce using rule 1 (start)
+
+
+State 10
+
+    0 $accept: start $end .
+
+    $default  accept
+
+
+State 11
+
+    2 start: function start .
+
+    $default  reduce using rule 2 (start)
+
+
+State 12
+
+    4 function: type IDENTIFIER . '(' arg ')' compound_statement
+    5         | type IDENTIFIER . '(' type ')' ';'
+
+    '('  shift, and go to state 13
+
+
+State 13
+
+    4 function: type IDENTIFIER '(' . arg ')' compound_statement
+    5         | type IDENTIFIER '(' . type ')' ';'
+
+    INT    shift, and go to state 1
+    FLOAT  shift, and go to state 2
+    CHAR   shift, and go to state 3
+    VOID   shift, and go to state 4
+
+    $default  reduce using rule 7 (arg)
+
+    arg   go to state 14
+    type  go to state 15
+
+
+State 14
+
+    4 function: type IDENTIFIER '(' arg . ')' compound_statement
+
+    ')'  shift, and go to state 16
+
+
+State 15
+
+    5 function: type IDENTIFIER '(' type . ')' ';'
+    6 arg: type . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 17
+    ')'         shift, and go to state 18
+
+
+State 16
+
+    4 function: type IDENTIFIER '(' arg ')' . compound_statement
+
+    '{'  shift, and go to state 19
+
+    compound_statement  go to state 20
+
+
+State 17
+
+    6 arg: type IDENTIFIER .
+
+    $default  reduce using rule 6 (arg)
+
+
+State 18
+
+    5 function: type IDENTIFIER '(' type ')' . ';'
+
+    ';'  shift, and go to state 21
+
+
+State 19
+
+    8 compound_statement: '{' . statement_list '}'
+    9                   | '{' . '}'
+
+    INT         shift, and go to state 1
+    FLOAT       shift, and go to state 2
+    CHAR        shift, and go to state 3
+    VOID        shift, and go to state 4
+    FOR         shift, and go to state 22
+    IF          shift, and go to state 23
+    PRINTF      shift, and go to state 24
+    IDENTIFIER  shift, and go to state 25
+    '}'         shift, and go to state 26
+
+    statement_list  go to state 27
+    statement       go to state 28
+    declaration     go to state 29
+    assignment      go to state 30
+    for             go to state 31
+    if_else         go to state 32
+    array           go to state 33
+    function_call   go to state 34
+    print           go to state 35
+    type            go to state 36
+
+
+State 20
+
+    4 function: type IDENTIFIER '(' arg ')' compound_statement .
+
+    $default  reduce using rule 4 (function)
+
+
+State 21
+
+    5 function: type IDENTIFIER '(' type ')' ';' .
+
+    $default  reduce using rule 5 (function)
+
+
+State 22
+
+   45 for: FOR . '(' assignment rel_expression ';' update ')' compound_statement
+   46    | FOR . '(' assignment rel_expression ';' update ')' statement
+
+    '('  shift, and go to state 37
+
+
+State 23
+
+   47 if_else: IF . '(' rel_expression ')' compound_statement
+   48        | IF . '(' rel_expression ')' compound_statement ELSE compound_statement
+
+    '('  shift, and go to state 38
+
+
+State 24
+
+   55 print: PRINTF . '(' STRING ',' identifier_list ')' ';'
+   56      | PRINTF . '(' STRING ')' ';'
+
+    '('  shift, and go to state 39
+
+
+State 25
+
+   22 assignment: IDENTIFIER . '=' expression ';'
+   23           | IDENTIFIER . '='
+   51 array: IDENTIFIER . '[' NUM ']' '=' STRING ';'
+   53      | IDENTIFIER . '[' NUM ']' '=' NUM ';'
+   54 function_call: IDENTIFIER . '(' IDENTIFIER ')' ';'
+
+    '('  shift, and go to state 40
+    '='  shift, and go to state 41
+    '['  shift, and go to state 42
+
+
+State 26
+
+    9 compound_statement: '{' '}' .
+
+    $default  reduce using rule 9 (compound_statement)
+
+
+State 27
+
+    8 compound_statement: '{' statement_list . '}'
+
+    '}'  shift, and go to state 43
+
+
+State 28
+
+   10 statement_list: statement .
+   11               | statement . statement_list
+
+    INT         shift, and go to state 1
+    FLOAT       shift, and go to state 2
+    CHAR        shift, and go to state 3
+    VOID        shift, and go to state 4
+    FOR         shift, and go to state 22
+    IF          shift, and go to state 23
+    PRINTF      shift, and go to state 24
+    IDENTIFIER  shift, and go to state 25
+
+    $default  reduce using rule 10 (statement_list)
+
+    statement_list  go to state 44
+    statement       go to state 28
+    declaration     go to state 29
+    assignment      go to state 30
+    for             go to state 31
+    if_else         go to state 32
+    array           go to state 33
+    function_call   go to state 34
+    print           go to state 35
+    type            go to state 36
+
+
+State 29
+
+   12 statement: declaration .
+
+    $default  reduce using rule 12 (statement)
+
+
+State 30
+
+   13 statement: assignment .
+
+    $default  reduce using rule 13 (statement)
+
+
+State 31
+
+   14 statement: for .
+
+    $default  reduce using rule 14 (statement)
+
+
+State 32
+
+   15 statement: if_else .
+
+    $default  reduce using rule 15 (statement)
+
+
+State 33
+
+   18 statement: array .
+
+    $default  reduce using rule 18 (statement)
+
+
+State 34
+
+   16 statement: function_call .
+
+    $default  reduce using rule 16 (statement)
+
+
+State 35
+
+   17 statement: print .
+
+    $default  reduce using rule 17 (statement)
+
+
+State 36
+
+   19 declaration: type . identifier_list ';'
+   49 array: type . IDENTIFIER '[' NUM ']' ';'
+   50      | type . IDENTIFIER '[' NUM ']' '=' STRING ';'
+   52      | type . IDENTIFIER '[' NUM ']' '=' NUM ';'
+
+    IDENTIFIER  shift, and go to state 45
+
+    identifier_list  go to state 46
+
+
+State 37
+
+   45 for: FOR '(' . assignment rel_expression ';' update ')' compound_statement
+   46    | FOR '(' . assignment rel_expression ';' update ')' statement
+
+    IDENTIFIER  shift, and go to state 47
+
+    assignment  go to state 48
+
+
+State 38
+
+   47 if_else: IF '(' . rel_expression ')' compound_statement
+   48        | IF '(' . rel_expression ')' compound_statement ELSE compound_statement
+
+    IDENTIFIER  shift, and go to state 49
+    NUM         shift, and go to state 50
+
+    rel_expression  go to state 51
+    factor_rel      go to state 52
+
+
+State 39
+
+   55 print: PRINTF '(' . STRING ',' identifier_list ')' ';'
+   56      | PRINTF '(' . STRING ')' ';'
+
+    STRING  shift, and go to state 53
+
+
+State 40
+
+   54 function_call: IDENTIFIER '(' . IDENTIFIER ')' ';'
+
+    IDENTIFIER  shift, and go to state 54
+
+
+State 41
+
+   22 assignment: IDENTIFIER '=' . expression ';'
+   23           | IDENTIFIER '=' .
+
+    IDENTIFIER  shift, and go to state 55
+    NUM         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    IDENTIFIER  [reduce using rule 23 (assignment)]
+    NUM         [reduce using rule 23 (assignment)]
+    $default    reduce using rule 23 (assignment)
+
+    expression  go to state 58
+    term        go to state 59
+    factor      go to state 60
+
+
+State 42
+
+   51 array: IDENTIFIER '[' . NUM ']' '=' STRING ';'
+   53      | IDENTIFIER '[' . NUM ']' '=' NUM ';'
+
+    NUM  shift, and go to state 61
+
+
+State 43
+
+    8 compound_statement: '{' statement_list '}' .
+
+    $default  reduce using rule 8 (compound_statement)
+
+
+State 44
+
+   11 statement_list: statement statement_list .
+
+    $default  reduce using rule 11 (statement_list)
+
+
+State 45
+
+   20 identifier_list: IDENTIFIER . ',' identifier_list
+   21                | IDENTIFIER .
+   49 array: type IDENTIFIER . '[' NUM ']' ';'
+   50      | type IDENTIFIER . '[' NUM ']' '=' STRING ';'
+   52      | type IDENTIFIER . '[' NUM ']' '=' NUM ';'
+
+    ','  shift, and go to state 62
+    '['  shift, and go to state 63
+
+    $default  reduce using rule 21 (identifier_list)
+
+
+State 46
+
+   19 declaration: type identifier_list . ';'
+
+    ';'  shift, and go to state 64
+
+
+State 47
+
+   22 assignment: IDENTIFIER . '=' expression ';'
+   23           | IDENTIFIER . '='
+
+    '='  shift, and go to state 41
+
+
+State 48
+
+   45 for: FOR '(' assignment . rel_expression ';' update ')' compound_statement
+   46    | FOR '(' assignment . rel_expression ';' update ')' statement
+
+    IDENTIFIER  shift, and go to state 49
+    NUM         shift, and go to state 50
+
+    rel_expression  go to state 65
+    factor_rel      go to state 52
+
+
+State 49
+
+   43 factor_rel: IDENTIFIER .
+
+    $default  reduce using rule 43 (factor_rel)
+
+
+State 50
+
+   44 factor_rel: NUM .
+
+    $default  reduce using rule 44 (factor_rel)
+
+
+State 51
+
+   47 if_else: IF '(' rel_expression . ')' compound_statement
+   48        | IF '(' rel_expression . ')' compound_statement ELSE compound_statement
+
+    ')'  shift, and go to state 66
+
+
+State 52
+
+   35 rel_expression: factor_rel . rel_expression_1
+
+    GE   shift, and go to state 67
+    EE   shift, and go to state 68
+    LE   shift, and go to state 69
+    NE   shift, and go to state 70
+    '<'  shift, and go to state 71
+    '>'  shift, and go to state 72
+
+    $default  reduce using rule 42 (rel_expression_1)
+
+    rel_expression_1  go to state 73
+
+
+State 53
+
+   55 print: PRINTF '(' STRING . ',' identifier_list ')' ';'
+   56      | PRINTF '(' STRING . ')' ';'
+
+    ')'  shift, and go to state 74
+    ','  shift, and go to state 75
+
+
+State 54
+
+   54 function_call: IDENTIFIER '(' IDENTIFIER . ')' ';'
+
+    ')'  shift, and go to state 76
+
+
+State 55
+
+   32 factor: IDENTIFIER .
+
+    $default  reduce using rule 32 (factor)
+
+
+State 56
+
+   34 factor: NUM .
+
+    $default  reduce using rule 34 (factor)
+
+
+State 57
+
+   33 factor: '(' . expression ')'
+
+    IDENTIFIER  shift, and go to state 55
+    NUM         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    expression  go to state 77
+    term        go to state 59
+    factor      go to state 60
+
+
+State 58
+
+   22 assignment: IDENTIFIER '=' expression . ';'
+
+    ';'  shift, and go to state 78
+
+
+State 59
+
+   24 expression: term . expression_1
+
+    '+'  shift, and go to state 79
+    '-'  shift, and go to state 80
+
+    $default  reduce using rule 27 (expression_1)
+
+    expression_1  go to state 81
+
+
+State 60
+
+   28 term: factor . term_1
+
+    '*'  shift, and go to state 82
+    '/'  shift, and go to state 83
+
+    $default  reduce using rule 31 (term_1)
+
+    term_1  go to state 84
+
+
+State 61
+
+   51 array: IDENTIFIER '[' NUM . ']' '=' STRING ';'
+   53      | IDENTIFIER '[' NUM . ']' '=' NUM ';'
+
+    ']'  shift, and go to state 85
+
+
+State 62
+
+   20 identifier_list: IDENTIFIER ',' . identifier_list
+
+    IDENTIFIER  shift, and go to state 86
+
+    identifier_list  go to state 87
+
+
+State 63
+
+   49 array: type IDENTIFIER '[' . NUM ']' ';'
+   50      | type IDENTIFIER '[' . NUM ']' '=' STRING ';'
+   52      | type IDENTIFIER '[' . NUM ']' '=' NUM ';'
+
+    NUM  shift, and go to state 88
+
+
+State 64
+
+   19 declaration: type identifier_list ';' .
+
+    $default  reduce using rule 19 (declaration)
+
+
+State 65
+
+   45 for: FOR '(' assignment rel_expression . ';' update ')' compound_statement
+   46    | FOR '(' assignment rel_expression . ';' update ')' statement
+
+    ';'  shift, and go to state 89
+
+
+State 66
+
+   47 if_else: IF '(' rel_expression ')' . compound_statement
+   48        | IF '(' rel_expression ')' . compound_statement ELSE compound_statement
+
+    '{'  shift, and go to state 19
+
+    compound_statement  go to state 90
+
+
+State 67
+
+   39 rel_expression_1: GE . factor_rel rel_expression_1
+
+    IDENTIFIER  shift, and go to state 49
+    NUM         shift, and go to state 50
+
+    factor_rel  go to state 91
+
+
+State 68
+
+   40 rel_expression_1: EE . factor_rel rel_expression_1
+
+    IDENTIFIER  shift, and go to state 49
+    NUM         shift, and go to state 50
+
+    factor_rel  go to state 92
+
+
+State 69
+
+   38 rel_expression_1: LE . factor_rel rel_expression_1
+
+    IDENTIFIER  shift, and go to state 49
+    NUM         shift, and go to state 50
+
+    factor_rel  go to state 93
+
+
+State 70
+
+   41 rel_expression_1: NE . factor_rel rel_expression_1
+
+    IDENTIFIER  shift, and go to state 49
+    NUM         shift, and go to state 50
+
+    factor_rel  go to state 94
+
+
+State 71
+
+   36 rel_expression_1: '<' . factor_rel rel_expression_1
+
+    IDENTIFIER  shift, and go to state 49
+    NUM         shift, and go to state 50
+
+    factor_rel  go to state 95
+
+
+State 72
+
+   37 rel_expression_1: '>' . factor_rel rel_expression_1
+
+    IDENTIFIER  shift, and go to state 49
+    NUM         shift, and go to state 50
+
+    factor_rel  go to state 96
+
+
+State 73
+
+   35 rel_expression: factor_rel rel_expression_1 .
+
+    $default  reduce using rule 35 (rel_expression)
+
+
+State 74
+
+   56 print: PRINTF '(' STRING ')' . ';'
+
+    ';'  shift, and go to state 97
+
+
+State 75
+
+   55 print: PRINTF '(' STRING ',' . identifier_list ')' ';'
+
+    IDENTIFIER  shift, and go to state 86
+
+    identifier_list  go to state 98
+
+
+State 76
+
+   54 function_call: IDENTIFIER '(' IDENTIFIER ')' . ';'
+
+    ';'  shift, and go to state 99
+
+
+State 77
+
+   33 factor: '(' expression . ')'
+
+    ')'  shift, and go to state 100
+
+
+State 78
+
+   22 assignment: IDENTIFIER '=' expression ';' .
+
+    $default  reduce using rule 22 (assignment)
+
+
+State 79
+
+   25 expression_1: '+' . term expression_1
+
+    IDENTIFIER  shift, and go to state 55
+    NUM         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    term    go to state 101
+    factor  go to state 60
+
+
+State 80
+
+   26 expression_1: '-' . term expression_1
+
+    IDENTIFIER  shift, and go to state 55
+    NUM         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    term    go to state 102
+    factor  go to state 60
+
+
+State 81
+
+   24 expression: term expression_1 .
+
+    $default  reduce using rule 24 (expression)
+
+
+State 82
+
+   29 term_1: '*' . factor term_1
+
+    IDENTIFIER  shift, and go to state 55
+    NUM         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    factor  go to state 103
+
+
+State 83
+
+   30 term_1: '/' . factor term_1
+
+    IDENTIFIER  shift, and go to state 55
+    NUM         shift, and go to state 56
+    '('         shift, and go to state 57
+
+    factor  go to state 104
+
+
+State 84
+
+   28 term: factor term_1 .
+
+    $default  reduce using rule 28 (term)
+
+
+State 85
+
+   51 array: IDENTIFIER '[' NUM ']' . '=' STRING ';'
+   53      | IDENTIFIER '[' NUM ']' . '=' NUM ';'
+
+    '='  shift, and go to state 105
+
+
+State 86
+
+   20 identifier_list: IDENTIFIER . ',' identifier_list
+   21                | IDENTIFIER .
+
+    ','  shift, and go to state 62
+
+    $default  reduce using rule 21 (identifier_list)
+
+
+State 87
+
+   20 identifier_list: IDENTIFIER ',' identifier_list .
+
+    $default  reduce using rule 20 (identifier_list)
+
+
+State 88
+
+   49 array: type IDENTIFIER '[' NUM . ']' ';'
+   50      | type IDENTIFIER '[' NUM . ']' '=' STRING ';'
+   52      | type IDENTIFIER '[' NUM . ']' '=' NUM ';'
+
+    ']'  shift, and go to state 106
+
+
+State 89
+
+   45 for: FOR '(' assignment rel_expression ';' . update ')' compound_statement
+   46    | FOR '(' assignment rel_expression ';' . update ')' statement
+
+    IDENTIFIER  shift, and go to state 107
+
+    update  go to state 108
+
+
+State 90
+
+   47 if_else: IF '(' rel_expression ')' compound_statement .
+   48        | IF '(' rel_expression ')' compound_statement . ELSE compound_statement
+
+    ELSE  shift, and go to state 109
+
+    $default  reduce using rule 47 (if_else)
+
+
+State 91
+
+   39 rel_expression_1: GE factor_rel . rel_expression_1
+
+    GE   shift, and go to state 67
+    EE   shift, and go to state 68
+    LE   shift, and go to state 69
+    NE   shift, and go to state 70
+    '<'  shift, and go to state 71
+    '>'  shift, and go to state 72
+
+    $default  reduce using rule 42 (rel_expression_1)
+
+    rel_expression_1  go to state 110
+
+
+State 92
+
+   40 rel_expression_1: EE factor_rel . rel_expression_1
+
+    GE   shift, and go to state 67
+    EE   shift, and go to state 68
+    LE   shift, and go to state 69
+    NE   shift, and go to state 70
+    '<'  shift, and go to state 71
+    '>'  shift, and go to state 72
+
+    $default  reduce using rule 42 (rel_expression_1)
+
+    rel_expression_1  go to state 111
+
+
+State 93
+
+   38 rel_expression_1: LE factor_rel . rel_expression_1
+
+    GE   shift, and go to state 67
+    EE   shift, and go to state 68
+    LE   shift, and go to state 69
+    NE   shift, and go to state 70
+    '<'  shift, and go to state 71
+    '>'  shift, and go to state 72
+
+    $default  reduce using rule 42 (rel_expression_1)
+
+    rel_expression_1  go to state 112
+
+
+State 94
+
+   41 rel_expression_1: NE factor_rel . rel_expression_1
+
+    GE   shift, and go to state 67
+    EE   shift, and go to state 68
+    LE   shift, and go to state 69
+    NE   shift, and go to state 70
+    '<'  shift, and go to state 71
+    '>'  shift, and go to state 72
+
+    $default  reduce using rule 42 (rel_expression_1)
+
+    rel_expression_1  go to state 113
+
+
+State 95
+
+   36 rel_expression_1: '<' factor_rel . rel_expression_1
+
+    GE   shift, and go to state 67
+    EE   shift, and go to state 68
+    LE   shift, and go to state 69
+    NE   shift, and go to state 70
+    '<'  shift, and go to state 71
+    '>'  shift, and go to state 72
+
+    $default  reduce using rule 42 (rel_expression_1)
+
+    rel_expression_1  go to state 114
+
+
+State 96
+
+   37 rel_expression_1: '>' factor_rel . rel_expression_1
+
+    GE   shift, and go to state 67
+    EE   shift, and go to state 68
+    LE   shift, and go to state 69
+    NE   shift, and go to state 70
+    '<'  shift, and go to state 71
+    '>'  shift, and go to state 72
+
+    $default  reduce using rule 42 (rel_expression_1)
+
+    rel_expression_1  go to state 115
+
+
+State 97
+
+   56 print: PRINTF '(' STRING ')' ';' .
+
+    $default  reduce using rule 56 (print)
+
+
+State 98
+
+   55 print: PRINTF '(' STRING ',' identifier_list . ')' ';'
+
+    ')'  shift, and go to state 116
+
+
+State 99
+
+   54 function_call: IDENTIFIER '(' IDENTIFIER ')' ';' .
+
+    $default  reduce using rule 54 (function_call)
+
+
+State 100
+
+   33 factor: '(' expression ')' .
+
+    $default  reduce using rule 33 (factor)
+
+
+State 101
+
+   25 expression_1: '+' term . expression_1
+
+    '+'  shift, and go to state 79
+    '-'  shift, and go to state 80
+
+    $default  reduce using rule 27 (expression_1)
+
+    expression_1  go to state 117
+
+
+State 102
+
+   26 expression_1: '-' term . expression_1
+
+    '+'  shift, and go to state 79
+    '-'  shift, and go to state 80
+
+    $default  reduce using rule 27 (expression_1)
+
+    expression_1  go to state 118
+
+
+State 103
+
+   29 term_1: '*' factor . term_1
+
+    '*'  shift, and go to state 82
+    '/'  shift, and go to state 83
+
+    $default  reduce using rule 31 (term_1)
+
+    term_1  go to state 119
+
+
+State 104
+
+   30 term_1: '/' factor . term_1
+
+    '*'  shift, and go to state 82
+    '/'  shift, and go to state 83
+
+    $default  reduce using rule 31 (term_1)
+
+    term_1  go to state 120
+
+
+State 105
+
+   51 array: IDENTIFIER '[' NUM ']' '=' . STRING ';'
+   53      | IDENTIFIER '[' NUM ']' '=' . NUM ';'
+
+    NUM     shift, and go to state 121
+    STRING  shift, and go to state 122
+
+
+State 106
+
+   49 array: type IDENTIFIER '[' NUM ']' . ';'
+   50      | type IDENTIFIER '[' NUM ']' . '=' STRING ';'
+   52      | type IDENTIFIER '[' NUM ']' . '=' NUM ';'
+
+    ';'  shift, and go to state 123
+    '='  shift, and go to state 124
+
+
+State 107
+
+   57 update: IDENTIFIER . INCR
+   58       | IDENTIFIER . DECR
+
+    INCR  shift, and go to state 125
+    DECR  shift, and go to state 126
+
+
+State 108
+
+   45 for: FOR '(' assignment rel_expression ';' update . ')' compound_statement
+   46    | FOR '(' assignment rel_expression ';' update . ')' statement
+
+    ')'  shift, and go to state 127
+
+
+State 109
+
+   48 if_else: IF '(' rel_expression ')' compound_statement ELSE . compound_statement
+
+    '{'  shift, and go to state 19
+
+    compound_statement  go to state 128
+
+
+State 110
+
+   39 rel_expression_1: GE factor_rel rel_expression_1 .
+
+    $default  reduce using rule 39 (rel_expression_1)
+
+
+State 111
+
+   40 rel_expression_1: EE factor_rel rel_expression_1 .
+
+    $default  reduce using rule 40 (rel_expression_1)
+
+
+State 112
+
+   38 rel_expression_1: LE factor_rel rel_expression_1 .
+
+    $default  reduce using rule 38 (rel_expression_1)
+
+
+State 113
+
+   41 rel_expression_1: NE factor_rel rel_expression_1 .
+
+    $default  reduce using rule 41 (rel_expression_1)
+
+
+State 114
+
+   36 rel_expression_1: '<' factor_rel rel_expression_1 .
+
+    $default  reduce using rule 36 (rel_expression_1)
+
+
+State 115
+
+   37 rel_expression_1: '>' factor_rel rel_expression_1 .
+
+    $default  reduce using rule 37 (rel_expression_1)
+
+
+State 116
+
+   55 print: PRINTF '(' STRING ',' identifier_list ')' . ';'
+
+    ';'  shift, and go to state 129
+
+
+State 117
+
+   25 expression_1: '+' term expression_1 .
+
+    $default  reduce using rule 25 (expression_1)
+
+
+State 118
+
+   26 expression_1: '-' term expression_1 .
+
+    $default  reduce using rule 26 (expression_1)
+
+
+State 119
+
+   29 term_1: '*' factor term_1 .
+
+    $default  reduce using rule 29 (term_1)
+
+
+State 120
+
+   30 term_1: '/' factor term_1 .
+
+    $default  reduce using rule 30 (term_1)
+
+
+State 121
+
+   53 array: IDENTIFIER '[' NUM ']' '=' NUM . ';'
+
+    ';'  shift, and go to state 130
+
+
+State 122
+
+   51 array: IDENTIFIER '[' NUM ']' '=' STRING . ';'
+
+    ';'  shift, and go to state 131
+
+
+State 123
+
+   49 array: type IDENTIFIER '[' NUM ']' ';' .
+
+    $default  reduce using rule 49 (array)
+
+
+State 124
+
+   50 array: type IDENTIFIER '[' NUM ']' '=' . STRING ';'
+   52      | type IDENTIFIER '[' NUM ']' '=' . NUM ';'
+
+    NUM     shift, and go to state 132
+    STRING  shift, and go to state 133
+
+
+State 125
+
+   57 update: IDENTIFIER INCR .
+
+    $default  reduce using rule 57 (update)
+
+
+State 126
+
+   58 update: IDENTIFIER DECR .
+
+    $default  reduce using rule 58 (update)
+
+
+State 127
+
+   45 for: FOR '(' assignment rel_expression ';' update ')' . compound_statement
+   46    | FOR '(' assignment rel_expression ';' update ')' . statement
+
+    INT         shift, and go to state 1
+    FLOAT       shift, and go to state 2
+    CHAR        shift, and go to state 3
+    VOID        shift, and go to state 4
+    FOR         shift, and go to state 22
+    IF          shift, and go to state 23
+    PRINTF      shift, and go to state 24
+    IDENTIFIER  shift, and go to state 25
+    '{'         shift, and go to state 19
+
+    compound_statement  go to state 134
+    statement           go to state 135
+    declaration         go to state 29
+    assignment          go to state 30
+    for                 go to state 31
+    if_else             go to state 32
+    array               go to state 33
+    function_call       go to state 34
+    print               go to state 35
+    type                go to state 36
+
+
+State 128
+
+   48 if_else: IF '(' rel_expression ')' compound_statement ELSE compound_statement .
+
+    $default  reduce using rule 48 (if_else)
+
+
+State 129
+
+   55 print: PRINTF '(' STRING ',' identifier_list ')' ';' .
+
+    $default  reduce using rule 55 (print)
+
+
+State 130
+
+   53 array: IDENTIFIER '[' NUM ']' '=' NUM ';' .
+
+    $default  reduce using rule 53 (array)
+
+
+State 131
+
+   51 array: IDENTIFIER '[' NUM ']' '=' STRING ';' .
+
+    $default  reduce using rule 51 (array)
+
+
+State 132
+
+   52 array: type IDENTIFIER '[' NUM ']' '=' NUM . ';'
+
+    ';'  shift, and go to state 136
+
+
+State 133
+
+   50 array: type IDENTIFIER '[' NUM ']' '=' STRING . ';'
+
+    ';'  shift, and go to state 137
+
+
+State 134
+
+   45 for: FOR '(' assignment rel_expression ';' update ')' compound_statement .
+
+    $default  reduce using rule 45 (for)
+
+
+State 135
+
+   46 for: FOR '(' assignment rel_expression ';' update ')' statement .
+
+    $default  reduce using rule 46 (for)
+
+
+State 136
+
+   52 array: type IDENTIFIER '[' NUM ']' '=' NUM ';' .
+
+    $default  reduce using rule 52 (array)
+
+
+State 137
+
+   50 array: type IDENTIFIER '[' NUM ']' '=' STRING ';' .
+
+    $default  reduce using rule 50 (array)
