@@ -21,7 +21,7 @@ sudo apt-get install bison
 
 ## Running the test cases
 ```
-run.sh
+./run.sh
 ./a.out <filename>
 ```
 
